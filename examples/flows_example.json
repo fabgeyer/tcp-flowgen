@@ -1,0 +1,20 @@
+{
+	"hosts": {
+		"A": {"mgmt": "localhost:8841", "host": "localhost"},
+		"B": {"mgmt": "localhost:8842", "host": "localhost"}
+	},
+	"flows": [{
+		"id": 0,
+		"src": "A",
+		"dst": "B",
+		"duration": "1s",
+		"ccalg": "bbr"
+	},
+	{
+		"id": 1,
+		"src": "A",
+		"dst": "B",
+		"duration": "2s",
+		"ccalg": "cubic"
+	}]
+}

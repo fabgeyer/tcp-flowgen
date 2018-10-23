@@ -1,0 +1,63 @@
+syntax = "proto3";
+
+package tcpflowgen;
+
+service TcpFlowGen {
+	rpc Hello(HelloRequest) returns (HelloReply) {}
+	rpc Shutdown(HelloRequest) returns (HelloReply) {}
+	rpc Listen(FlowParams) returns (ListenStatus) {}
+	rpc StartFlow(FlowParams) returns (StartStatus) {}
+	rpc GetResults(FlowParams) returns (Results) {}
+}
+
+message HelloRequest {
+}
+
+message HelloReply {
+}
+
+message ListenStatus {
+	uint32 port = 1;
+}
+
+message StartStatus {
+}
+
+message FlowParams {
+	int32 id = 1;
+	string src = 2;
+	string dst = 3;
+	uint32 port = 4;
+	uint64 duration = 5; // in milliseconds
+	uint64 start = 6; // in milliseconds
+	string ccalg = 7;
+	bool ECN = 8;
+	bool NoDelay = 9;
+}
+
+message TCPInfo {
+	double ts = 1;
+	int32 castate = 2;
+	int32 state = 3;
+	double RTT = 4;
+	double RTTVar = 5;
+	uint64 ThruBytesAcked = 6;
+	uint64 ThruBytesReceived = 7;
+	uint32 UnackedSegs = 8;
+	uint32 LostSegs = 9;
+	uint32 RetransSegs = 10;
+	uint32 ReorderedSegs = 11;
+}
+
+message Results {
+	int32 id = 1;
+	double kbps = 2;
+	repeated TCPInfo TCPInfo = 3;
+}
+
+// Used for serializing the results to disk
+message Flow {
+	FlowParams params = 1;
+	repeated TCPInfo TxTCPInfo = 2;
+	repeated TCPInfo RxTCPInfo = 3;
+}
